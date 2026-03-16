@@ -11,10 +11,11 @@ import pages.LoginPage;
 
 public class LoginSteps {
 
-    private static final String VALID_USERNAME = "admin";
-    private static final String VALID_PASSWORD = "password123";
-    private static final String INVALID_USERNAME = "unknown_user";
-    private static final String INVALID_PASSWORD = "wrong_password";
+    private static final String VALID_EMAIL = "duver@gmail.com";
+    private static final String VALID_PASSWORD = "Duver123--";
+    private static final String INVALID_EMAIL = "username@gmail.com";
+    private static final String INVALID_PASSWORD = "12345678";
+    private static final String EXPECTED_ERROR_MESSAGE = "User not found";
 
     private LoginPage loginPage;
     private HomePage homePage;
@@ -25,19 +26,24 @@ public class LoginSteps {
         homePage = new HomePage();
     }
 
-    @Given("the user is on the login page")
-    public void theUserIsOnTheLoginPage() {
+    @Given("the user opens the application in the home page")
+    public void theUserOpensTheApplicationInTheHomePage() {
         loginPage.navigateTo();
     }
 
-    @When("the user enters a valid username and password")
-    public void theUserEntersAValidUsernameAndPassword() {
-        loginPage.enterCredentials(VALID_USERNAME, VALID_PASSWORD);
+    @When("the user clicks the sign in button")
+    public void theUserClicksTheSignInButton() {
+        loginPage.clickSignInFromNavbar();
     }
 
-    @When("the user enters an invalid username and password")
-    public void theUserEntersAnInvalidUsernameAndPassword() {
-        loginPage.enterCredentials(INVALID_USERNAME, INVALID_PASSWORD);
+    @When("the user enters invalid credentials")
+    public void theUserEntersInvalidCredentials() {
+        loginPage.enterCredentials(INVALID_EMAIL, INVALID_PASSWORD);
+    }
+
+    @When("the user enters valid credentials")
+    public void theUserEntersValidCredentials() {
+        loginPage.enterCredentials(VALID_EMAIL, VALID_PASSWORD);
     }
 
     @And("the user submits the login form")
@@ -45,17 +51,18 @@ public class LoginSteps {
         loginPage.submitLoginForm();
     }
 
-    @Then("the user should be redirected to the dashboard")
-    public void theUserShouldBeRedirectedToTheDashboard() {
-        Assert.assertTrue("Dashboard should be visible after successful login",
-                homePage.isDashboardVisible());
+    @Then("the user should see the Registro button as authenticated user")
+    public void theUserShouldSeeTheRegistroButtonAsAuthenticatedUser() {
+        Assert.assertTrue("Registro button should be visible after successful login",
+                homePage.isRegistroButtonVisibleForAuthenticatedUser());
     }
 
-    @Then("the user should see a login error message")
-    public void theUserShouldSeeALoginErrorMessage() {
+    @Then("the user should see the error message User not found")
+    public void theUserShouldSeeTheErrorMessageUserNotFound() {
         Assert.assertTrue("Error message should be displayed after failed login",
                 homePage.isLoginErrorDisplayed());
-        Assert.assertFalse("Error message text should not be empty",
-                homePage.getErrorMessageText().isEmpty());
+        Assert.assertEquals("Unexpected login error message",
+                EXPECTED_ERROR_MESSAGE,
+                homePage.getErrorMessageText());
     }
 }

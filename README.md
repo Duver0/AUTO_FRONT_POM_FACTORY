@@ -33,6 +33,12 @@ Front-end automated test suite for the locally running web application at `http:
 ./gradlew reports
 ```
 
+Open the generated report on Linux:
+
+```bash
+xdg-open target/site/serenity/index.html
+```
+
 The HTML report is generated at `target/site/serenity/index.html`.
 
 ---
