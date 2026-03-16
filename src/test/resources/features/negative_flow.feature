@@ -3,6 +3,7 @@ Feature: Negative sign in flow
   I want to receive an error when using unknown credentials
   So that I know my account does not exist
 
+  @negative_login
   Scenario: Login attempt with non existing user shows User not found
     Given the user opens the application in the home page
     When the user clicks the sign in button

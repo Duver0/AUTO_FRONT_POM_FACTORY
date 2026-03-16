@@ -26,6 +26,16 @@ public class LoginSteps {
         homePage = new HomePage();
     }
 
+    @Before("@positive_login")
+    public void placePositiveFlowWindow() {
+        loginPage.setWindowBounds(0, 0, 683, 768);
+    }
+
+    @Before("@negative_login")
+    public void placeNegativeFlowWindow() {
+        loginPage.setWindowBounds(683, 0, 683, 768);
+    }
+
     @Given("the user opens the application in the home page")
     public void theUserOpensTheApplicationInTheHomePage() {
         loginPage.navigateTo();

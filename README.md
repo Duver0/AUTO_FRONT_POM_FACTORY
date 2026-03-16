@@ -25,6 +25,23 @@ Front-end automated test suite for the locally running web application at `http:
 ./gradlew clean test
 ```
 
+## Running Tests in Parallel
+
+This project executes Cucumber runners in parallel using Gradle test forks.
+
+```bash
+./gradlew clean test
+```
+
+Parallelism is configured in `build.gradle` with:
+
+```gradle
+test {
+  useJUnit()
+  maxParallelForks = 2
+}
+```
+
 ---
 
 ## Generating the Serenity Report

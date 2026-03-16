@@ -6,9 +6,9 @@ import org.junit.runner.RunWith;
 
 @RunWith(CucumberWithSerenity.class)
 @CucumberOptions(
-        features = "src/test/resources/features/positive_flow.feature",
+        features = "src/test/resources/features/negative_flow.feature",
         glue = "steps",
         plugin = { "pretty" }
 )
-public class CucumberTestRunner {
+public class NegativeCucumberTestRunner {
 }

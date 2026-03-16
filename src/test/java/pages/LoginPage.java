@@ -2,8 +2,16 @@ package pages;
 
 import net.serenitybdd.core.pages.WebElementFacade;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
 
 public class LoginPage extends BasePage {
+
+    public void setWindowBounds(int x, int y, int width, int height) {
+        initElements(getDriver());
+        getDriver().manage().window().setPosition(new Point(x, y));
+        getDriver().manage().window().setSize(new Dimension(width, height));
+    }
 
     public void navigateTo() {
         initElements(getDriver());

@@ -3,6 +3,7 @@ Feature: Positive sign in flow
   I want to log in with valid credentials
   So that I can access authenticated options
 
+  @positive_login
   Scenario: Login with existing user shows Registro button
     Given the user opens the application in the home page
     When the user clicks the sign in button
