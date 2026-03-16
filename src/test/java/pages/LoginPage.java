@@ -1,30 +1,30 @@
 package pages;
 
-import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.WebElementFacade;
+import org.openqa.selenium.By;
 
 public class LoginPage extends BasePage {
 
-    @FindBy(id = "username")
-    private WebElementFacade usernameField;
-
-    @FindBy(id = "password")
-    private WebElementFacade passwordField;
-
-    @FindBy(id = "login-button")
-    private WebElementFacade loginButton;
-
     public void navigateTo() {
         initElements(getDriver());
-        openAt("/");
+        openUrl("http://localhost:3001/");
     }
 
-    public void enterCredentials(String username, String password) {
-        usernameField.type(username);
+    public void clickSignInFromNavbar() {
+        initElements(getDriver());
+        WebElementFacade signInNavButton = find(By.xpath("//a[normalize-space()='Iniciar sesión']"));
+        signInNavButton.waitUntilClickable().click();
+    }
+
+    public void enterCredentials(String email, String password) {
+        WebElementFacade emailField = find(By.cssSelector("input[placeholder='Email']"));
+        WebElementFacade passwordField = find(By.cssSelector("input[placeholder='Contraseña']"));
+        emailField.waitUntilVisible().type(email);
         passwordField.type(password);
     }
 
     public void submitLoginForm() {
-        loginButton.click();
+        WebElementFacade signInSubmitButton = find(By.cssSelector("button[type='submit']"));
+        signInSubmitButton.waitUntilClickable().click();
     }
 }
