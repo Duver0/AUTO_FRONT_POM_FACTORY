@@ -18,7 +18,7 @@ repositories {
 ext {
     serenityVersion = '4.2.11'
     cucumberVersion = '7.20.1'
-    webdrivermanagerVersion = '5.9.1'
+    webdrivermanagerVersion = '6.1.0'
     junitVersion = '4.13.2'
 }
 
