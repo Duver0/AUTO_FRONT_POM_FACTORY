@@ -1,12 +1,14 @@
 package pages;
 
-import net.serenitybdd.core.pages.PageObject;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
-public class BasePage extends PageObject {
+public class BasePage {
 
-    protected void initElements(WebDriver driver) {
+    protected final WebDriver driver;
+
+    protected BasePage(WebDriver driver) {
+        this.driver = driver;
         PageFactory.initElements(driver, this);
     }
 }

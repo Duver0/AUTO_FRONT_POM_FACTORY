@@ -1,11 +1,14 @@
 package steps;
 
+import io.cucumber.java.After;
 import io.cucumber.java.Before;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.Assert;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import pages.HomePage;
 import pages.LoginPage;
 
@@ -17,62 +20,59 @@ public class LoginSteps {
     private static final String INVALID_PASSWORD = "12345678";
     private static final String EXPECTED_ERROR_MESSAGE = "User not found";
 
+    private WebDriver driver;
     private LoginPage loginPage;
     private HomePage homePage;
 
     @Before
-    public void initPages() {
-        loginPage = new LoginPage();
-        homePage = new HomePage();
+    public void setUp() {
+        WebDriverManager.chromedriver().setup();
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+
+        loginPage = new LoginPage(driver);
+        homePage = new HomePage(driver);
     }
 
-    @Before("@positive_login")
-    public void placePositiveFlowWindow() {
-        loginPage.setWindowBounds(0, 0, 683, 768);
+    @After
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
     }
 
-    @Before("@negative_login")
-    public void placeNegativeFlowWindow() {
-        loginPage.setWindowBounds(683, 0, 683, 768);
+    @Given("the customer is on the sign in page")
+    public void theCustomerIsOnTheSignInPage() {
+        loginPage.openHomePage();
+        loginPage.openSignInForm();
     }
 
-    @Given("the user opens the application in the home page")
-    public void theUserOpensTheApplicationInTheHomePage() {
-        loginPage.navigateTo();
+    @When("the customer authenticates with valid credentials")
+    public void theCustomerAuthenticatesWithValidCredentials() {
+        loginPage.enterUsername(VALID_EMAIL);
+        loginPage.enterPassword(VALID_PASSWORD);
+        loginPage.clickLoginButton();
     }
 
-    @When("the user clicks the sign in button")
-    public void theUserClicksTheSignInButton() {
-        loginPage.clickSignInFromNavbar();
+    @When("the customer authenticates with invalid credentials")
+    public void theCustomerAuthenticatesWithInvalidCredentials() {
+        loginPage.enterUsername(INVALID_EMAIL);
+        loginPage.enterPassword(INVALID_PASSWORD);
+        loginPage.clickLoginButton();
     }
 
-    @When("the user enters invalid credentials")
-    public void theUserEntersInvalidCredentials() {
-        loginPage.enterCredentials(INVALID_EMAIL, INVALID_PASSWORD);
-    }
-
-    @When("the user enters valid credentials")
-    public void theUserEntersValidCredentials() {
-        loginPage.enterCredentials(VALID_EMAIL, VALID_PASSWORD);
-    }
-
-    @And("the user submits the login form")
-    public void theUserSubmitsTheLoginForm() {
-        loginPage.submitLoginForm();
-    }
-
-    @Then("the user should see the Registro button as authenticated user")
-    public void theUserShouldSeeTheRegistroButtonAsAuthenticatedUser() {
+    @Then("the customer should access the authenticated area")
+    public void theCustomerShouldAccessTheAuthenticatedArea() {
         Assert.assertTrue("Registro button should be visible after successful login",
-                homePage.isRegistroButtonVisibleForAuthenticatedUser());
+                homePage.isAuthenticatedAreaVisible());
     }
 
-    @Then("the user should see the error message User not found")
-    public void theUserShouldSeeTheErrorMessageUserNotFound() {
+    @Then("the customer should see an authentication error message")
+    public void theCustomerShouldSeeAnAuthenticationErrorMessage() {
         Assert.assertTrue("Error message should be displayed after failed login",
-                homePage.isLoginErrorDisplayed());
+                homePage.isAuthenticationErrorDisplayed());
         Assert.assertEquals("Unexpected login error message",
                 EXPECTED_ERROR_MESSAGE,
-                homePage.getErrorMessageText());
+                homePage.getAuthenticationErrorMessage());
     }
 }
