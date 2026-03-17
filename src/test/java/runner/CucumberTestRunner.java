@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(CucumberWithSerenity.class)
 @CucumberOptions(
-        features = "src/test/resources/features/positive_flow.feature",
+        features = "src/test/resources/features",
         glue = "steps",
         plugin = { "pretty" }
 )
