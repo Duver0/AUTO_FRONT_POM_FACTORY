@@ -1,14 +1,12 @@
 package pages;
 
-import org.openqa.selenium.WebDriver;
+import net.serenitybdd.core.pages.PageObject;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class HomePage extends BasePage {
+public class HomePage extends PageObject {
 
     @FindBy(xpath = "//a[normalize-space()='Registro']")
     private WebElement authenticatedAreaMarker;
@@ -16,20 +14,18 @@ public class HomePage extends BasePage {
     @FindBy(css = "p[role='alert']")
     private WebElement authenticationErrorMessage;
 
-    public HomePage(WebDriver driver) {
-        super(driver);
-    }
-
     public boolean isAuthenticatedAreaVisible() {
-        return new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.visibilityOf(authenticatedAreaMarker))
-                .isDisplayed();
+        setImplicitTimeout(10, java.time.temporal.ChronoUnit.SECONDS);
+        boolean isVisible = element(authenticatedAreaMarker).waitUntilVisible().isDisplayed();
+        resetImplicitTimeout();
+        return isVisible;
     }
 
     public boolean isAuthenticationErrorDisplayed() {
-        return new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.visibilityOf(authenticationErrorMessage))
-                .isDisplayed();
+        setImplicitTimeout(10, java.time.temporal.ChronoUnit.SECONDS);
+        boolean isVisible = element(authenticationErrorMessage).waitUntilVisible().isDisplayed();
+        resetImplicitTimeout();
+        return isVisible;
     }
 
     public String getAuthenticationErrorMessage() {
