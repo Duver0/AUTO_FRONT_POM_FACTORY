@@ -10,7 +10,7 @@ Front-end automated test suite for the locally running web application at `http:
 
 | Requirement | Version |
 |---|---|
-| Java (JDK) | 11+ |
+| Java (JDK) | 17+ |
 | Gradle | 8+ (wrapper included) |
 | Browser | Google Chrome (latest) |
 | Target application | Running at `http://localhost:3001/` |
