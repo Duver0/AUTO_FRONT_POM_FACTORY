@@ -4,9 +4,7 @@ Feature: Positive sign in flow
   So that I can access authenticated options
 
   @positive_login
-  Scenario: Login with existing user shows Registro button
-    Given the user opens the application in the home page
-    When the user clicks the sign in button
-    And the user enters valid credentials
-    And the user submits the login form
-    Then the user should see the Registro button as authenticated user
+  Scenario: Registered customer accesses authenticated area
+    Given the customer is on the sign in page
+    When the customer authenticates with valid credentials
+    Then the customer should access the authenticated area

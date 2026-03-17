@@ -4,9 +4,7 @@ Feature: Negative sign in flow
   So that I know my account does not exist
 
   @negative_login
-  Scenario: Login attempt with non existing user shows User not found
-    Given the user opens the application in the home page
-    When the user clicks the sign in button
-    And the user enters invalid credentials
-    And the user submits the login form
-    Then the user should see the error message User not found
+  Scenario: Visitor receives validation feedback for invalid credentials
+    Given the customer is on the sign in page
+    When the customer authenticates with invalid credentials
+    Then the customer should see an authentication error message

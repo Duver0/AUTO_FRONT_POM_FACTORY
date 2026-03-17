@@ -1,38 +1,56 @@
 package pages;
 
-import net.serenitybdd.core.pages.WebElementFacade;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Point;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class LoginPage extends BasePage {
 
-    public void setWindowBounds(int x, int y, int width, int height) {
-        initElements(getDriver());
-        getDriver().manage().window().setPosition(new Point(x, y));
-        getDriver().manage().window().setSize(new Dimension(width, height));
+    @FindBy(xpath = "//a[normalize-space()='Iniciar sesión']")
+    private WebElement signInEntryPoint;
+
+    @FindBy(css = "input[placeholder='Email']")
+    private WebElement emailField;
+
+    @FindBy(css = "input[placeholder='Contraseña']")
+    private WebElement passwordField;
+
+    @FindBy(css = "button[type='submit']")
+    private WebElement authenticateButton;
+
+    public LoginPage(WebDriver driver) {
+        super(driver);
     }
 
-    public void navigateTo() {
-        initElements(getDriver());
-        openUrl("http://localhost:3001/");
+    public void openHomePage() {
+        driver.get("http://localhost:3001/");
     }
 
-    public void clickSignInFromNavbar() {
-        initElements(getDriver());
-        WebElementFacade signInNavButton = find(By.xpath("//a[normalize-space()='Iniciar sesión']"));
-        signInNavButton.waitUntilClickable().click();
+    public void openSignInForm() {
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.elementToBeClickable(signInEntryPoint))
+                .click();
     }
 
-    public void enterCredentials(String email, String password) {
-        WebElementFacade emailField = find(By.cssSelector("input[placeholder='Email']"));
-        WebElementFacade passwordField = find(By.cssSelector("input[placeholder='Contraseña']"));
-        emailField.waitUntilVisible().type(email);
-        passwordField.type(password);
+    public void enterUsername(String username) {
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.visibilityOf(emailField));
+        emailField.clear();
+        emailField.sendKeys(username);
     }
 
-    public void submitLoginForm() {
-        WebElementFacade signInSubmitButton = find(By.cssSelector("button[type='submit']"));
-        signInSubmitButton.waitUntilClickable().click();
+    public void enterPassword(String password) {
+        passwordField.clear();
+        passwordField.sendKeys(password);
+    }
+
+    public void clickLoginButton() {
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.elementToBeClickable(authenticateButton))
+                .click();
     }
 }

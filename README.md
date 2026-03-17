@@ -64,25 +64,23 @@ The HTML report is generated at `target/site/serenity/index.html`.
 
 ### Positive Flow — `positive_flow.feature`
 
-**Scenario**: A registered user logs in with valid credentials and is redirected to the application dashboard.
+**Scenario**: Registered customer accesses authenticated area.
 
 Steps covered:
-1. Navigate to the login page.
-2. Enter a valid username and password.
-3. Submit the login form.
-4. Verify the dashboard is displayed.
+1. Open the sign in page.
+2. Authenticate with valid credentials.
+3. Verify access to authenticated area.
 
 ---
 
 ### Negative Flow — `negative_flow.feature`
 
-**Scenario**: A visitor attempts to log in with invalid credentials and sees an error message.
+**Scenario**: Visitor receives validation feedback for invalid credentials.
 
 Steps covered:
-1. Navigate to the login page.
-2. Enter an invalid username and password.
-3. Submit the login form.
-4. Verify the error message is displayed.
+1. Open the sign in page.
+2. Authenticate with invalid credentials.
+3. Verify authentication error message.
 
 ---
 
