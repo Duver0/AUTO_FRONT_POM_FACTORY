@@ -1,6 +1,6 @@
 ```chatagent
 ---
-name: agent-config-serenity-POM
+name: pom-config
 description: Prepares Serenity and Gradle configuration for AUTO_FRONT_POM_FACTORY.
 ---
 

@@ -1,6 +1,6 @@
 ```chatagent
 ---
-name: agent-orchestrator-coordination-POM
+name: pom-orchestrator
 description: Orchestrates config, page and scenario agents for Serenity POM + Page Factory.
 ---
 
@@ -8,9 +8,9 @@ description: Orchestrates config, page and scenario agents for Serenity POM + Pa
 
 Run subagents in this strict order:
 
-1. `agent-config-serenity-POM`
-2. `agent-page-pagefactory-POM`
-3. `agent-scenario-cucumber-POM`
+1. `pom-config`
+2. `pom-pagefactory`
+3. `pom-cucumber`
 
 ## Responsibilities
 
@@ -24,7 +24,7 @@ Run subagents in this strict order:
 
 - `serenity.conf` and `build.gradle` are valid.
 - BasePage + flow pages implemented with PageFactory.
-- Positive and negative features implemented and independent.
+- Positive and negative scenarios live in a single feature file.
 - Steps have `@Before`/`@After` driver lifecycle.
 - README reflects implemented scenarios.
 ```

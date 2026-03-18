@@ -1,6 +1,6 @@
 ```chatagent
 ---
-name: agent-page-pagefactory-POM
+name: pom-pagefactory
 description: Builds Page Objects with Page Factory for positive and negative flows.
 ---
 
