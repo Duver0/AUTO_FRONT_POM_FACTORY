@@ -66,8 +66,8 @@ The HTML report is generated at `target/site/serenity/index.html`.
 
 This feature includes both scenarios for the sign in process:
 
-- Successful sign in with valid credentials.
-- Validation feedback for invalid credentials.
+- Successful sign in with valid credentials declared directly in the feature.
+- Validation feedback for invalid credentials with expected message declared in the feature.
 
 ---
 
@@ -80,9 +80,10 @@ src/
       runner/
         CucumberTestRunner.java   # JUnit + Serenity runner
       pages/
-        BasePage.java             # PageFactory initialisation
         LoginPage.java            # Login page object
         HomePage.java             # Dashboard/result page object
+      utils/
+        ImplicitTimeoutUtils.java # Reusable timeout helper for page actions/assertions
       steps/
         LoginSteps.java           # Cucumber step definitions
     resources/

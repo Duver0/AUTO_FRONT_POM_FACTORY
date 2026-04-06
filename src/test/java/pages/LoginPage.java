@@ -1,12 +1,18 @@
 package pages;
 
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
+import java.io.File;
 import net.serenitybdd.core.pages.PageObject;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import utils.ImplicitTimeoutUtils;
 
 public class LoginPage extends PageObject {
+
+    private static final String SERENITY_CONFIG_FILE = "serenity.conf";
+    private static final String BASE_URL_KEY = "webdriver.base.url";
 
     @FindBy(xpath = "//a[normalize-space()='Iniciar sesión']")
     private WebElement signInEntryPoint;
@@ -21,20 +27,46 @@ public class LoginPage extends PageObject {
     private WebElement authenticateButton;
 
     public void openHomePage() {
-        openAt("http://localhost:3001/");
+        openAt(baseUrlFromSerenityConfig());
+    }
+
+    private String baseUrlFromSerenityConfig() {
+        Config config = ConfigFactory.parseFile(new File(SERENITY_CONFIG_FILE)).resolve();
+        if (!config.hasPath(BASE_URL_KEY)) {
+            throw new IllegalStateException("webdriver.base.url is not configured in serenity.conf");
+        }
+
+        String baseUrl = config.getString(BASE_URL_KEY);
+        if (baseUrl == null || baseUrl.isBlank()) {
+            throw new IllegalStateException("webdriver.base.url is empty in serenity.conf");
+        }
+
+        return baseUrl;
     }
 
     public void openSignInForm() {
-        setImplicitTimeout(10, java.time.temporal.ChronoUnit.SECONDS);
-        element(signInEntryPoint).click();
-        resetImplicitTimeout();
+        ImplicitTimeoutUtils.executeWithDefaultTimeout(
+                seconds -> setImplicitTimeout(seconds, ChronoUnit.SECONDS),
+                () -> element(signInEntryPoint).click(),
+                this::resetImplicitTimeout
+        );
+    }
+
+    public void authenticateWith(String username, String password) {
+        enterUsername(username);
+        enterPassword(password);
+        clickLoginButton();
     }
 
     public void enterUsername(String username) {
-        setImplicitTimeout(10, java.time.temporal.ChronoUnit.SECONDS);
-        element(emailField).waitUntilVisible().clear();
-        typeInto(emailField, username);
-        resetImplicitTimeout();
+        ImplicitTimeoutUtils.executeWithDefaultTimeout(
+                seconds -> setImplicitTimeout(seconds, ChronoUnit.SECONDS),
+                () -> {
+                    element(emailField).waitUntilVisible().clear();
+                    typeInto(emailField, username);
+                },
+                this::resetImplicitTimeout
+        );
     }
 
     public void enterPassword(String password) {
@@ -42,8 +74,10 @@ public class LoginPage extends PageObject {
     }
 
     public void clickLoginButton() {
-        setImplicitTimeout(10, java.time.temporal.ChronoUnit.SECONDS);
-        element(authenticateButton).click();
-        resetImplicitTimeout();
+        ImplicitTimeoutUtils.executeWithDefaultTimeout(
+                seconds -> setImplicitTimeout(seconds, ChronoUnit.SECONDS),
+                () -> element(authenticateButton).click(),
+                this::resetImplicitTimeout
+        );
     }
 }
