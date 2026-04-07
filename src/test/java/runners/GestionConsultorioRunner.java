@@ -1,4 +1,4 @@
-package runner;
+package runners;
 
 import io.cucumber.junit.CucumberOptions;
 import net.serenitybdd.cucumber.CucumberWithSerenity;
@@ -6,10 +6,10 @@ import org.junit.runner.RunWith;
 
 @RunWith(CucumberWithSerenity.class)
 @CucumberOptions(
-        features = "src/test/resources/features",
+        features = "src/test/resources/features/gestion_consultorio.feature",
         glue = "steps",
         plugin = { "pretty" },
-        tags = "not @gestion_consultorio"
+        tags = "@gestion_consultorio"
 )
-public class CucumberTestRunner {
+public class GestionConsultorioRunner {
 }
