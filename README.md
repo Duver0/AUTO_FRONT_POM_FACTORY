@@ -69,6 +69,13 @@ This feature includes both scenarios for the sign in process:
 - Successful sign in with valid credentials declared directly in the feature.
 - Validation feedback for invalid credentials with expected message declared in the feature.
 
+### Consultorio Management Flow — `gestion_consultorio.feature`
+
+This feature includes exactly two independent scenarios:
+
+- Positive scenario: a registered `medico` signs in, selects an available consultorio, and the UI reflects the domain transition to `ConMedicoDisponible`.
+- Negative scenario: a registered non-medical user (`employee`) signs in, receives access denied feedback from backend role protection, and is blocked from entering the medical panel UI.
+
 ---
 
 ## Project Structure
@@ -79,15 +86,24 @@ src/
     java/
       runner/
         CucumberTestRunner.java   # JUnit + Serenity runner
+      runners/
+        GestionConsultorioRunner.java # Dedicated runner for consultorio feature
       pages/
+        BasePage.java             # Shared Page Factory base class
+        ConsultorioLoginPage.java # Sign in page object for consultorio feature
+        ConsultorioMedicalPanelPage.java # Medical panel page object
+        ConsultorioPreconditionsHelper.java # API helper for deterministic preconditions
+        ConsultorioSignUpPage.java # Signup page object used in @Given preconditions
         LoginPage.java            # Login page object
         HomePage.java             # Dashboard/result page object
       utils/
         ImplicitTimeoutUtils.java # Reusable timeout helper for page actions/assertions
       steps/
+        GestionConsultorioSteps.java # Cucumber steps for consultorio management
         LoginSteps.java           # Cucumber step definitions
     resources/
       features/
+        gestion_consultorio.feature # Positive/negative consultorio scenarios
         sign_in_flow.feature      # Positive and negative sign in scenarios
 serenity.conf                     # Serenity + WebDriver configuration
 build.gradle                      # Gradle build & dependencies
