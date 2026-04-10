@@ -86,7 +86,6 @@ src/
     java/
       runner/
         CucumberTestRunner.java   # JUnit + Serenity runner
-      runners/
         GestionConsultorioRunner.java # Dedicated runner for consultorio feature
       pages/
         BasePage.java             # Shared Page Factory base class
